@@ -1,0 +1,125 @@
+import java.util.*;
+import java.lang.Math;
+
+public class ApproxPi
+{
+  public double darts;
+  
+  public float x,y,areaO,areaSq;
+  
+  public float[] xCoord , yCoord;
+  public ApproxPi(int darts)
+  {
+    this.darts=darts;
+    this.xCoord = new float[darts];
+    this.yCoord = new float[darts];
+  }
+  
+  public void random(int i)
+  {
+    Random r = new Random();
+    float one = (float) -.5;
+    float two= (float).5;
+    float x = one + r.nextFloat() * (two - one);
+    
+    float y = one + r.nextFloat() * (two - one);
+    this.x = x;
+    this.y = y;
+    this.xCoord[i] = x;
+    this.yCoord[i] = y;
+    //System.out.println("X: "  + x + "  Y:" + y);
+  }
+  
+  public float compute()
+  {
+    
+    double inside = 0;
+    double outside = 0;
+    for(int i = 0; i<this.darts;i++)
+    {
+      float d = (float)Math.sqrt((this.x*this.x+this.y*this.y));
+
+      if(Math.abs(d) <= (float)1/2)
+        inside++;
+      else
+        outside++;
+      random(i);
+    }
+    
+    //System.out.println(inside);
+    float pi = (float)(4*(inside/this.darts));
+    //System.out.println((float)1/2);
+    return pi;
+  }
+  
+  public float[] dev()
+  {
+   float avgX = 0;
+   float avgY = 0;
+   for(int i = 0;i<this.darts;i++)
+   {
+     avgX = avgX + this.xCoord[i];
+     avgY = avgY + this.yCoord[i];
+   }
+   avgX = (float)(avgX/this.darts);
+   avgY = (float)(avgY/this.darts);
+   
+   float xDev = 0;
+   float yDev = 0;
+    for(int j = 0; j<this.darts;j++)
+    {
+      xDev = (float)(xDev + (Math.pow(this.xCoord[j]+avgX,2)));
+      yDev = (float)(yDev + (Math.pow(this.yCoord[j]+avgX,2)));
+    }
+    float[] dev = new float[2];
+    dev[0] = (float)(xDev/this.darts);
+    dev[1] = (float)(yDev/this.darts);
+   return dev;
+  }
+  
+  
+  public static void main(String args[])
+  {
+    ApproxPi test1 = new ApproxPi(10); //10
+    System.out.println("Estimate of Pi for 10 "+test1.compute());
+    float[] dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+    
+    test1 = new ApproxPi(100); //100
+    System.out.println("Estimate of Pi for 100 "+test1.compute());
+    dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+    
+    test1 = new ApproxPi(1000); //1000
+    System.out.println("Estimate of Pi for 1,000 "+test1.compute());
+    dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+    test1 = new ApproxPi(10000); //10000
+    System.out.println("Estimate of Pi for 10,000 "+test1.compute());
+    dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+        
+    test1 = new ApproxPi(100000); //100000
+    System.out.println("Estimate of Pi for 100,000 "+test1.compute());
+    dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+    
+
+    test1 = new ApproxPi(1000000); //1000000
+    System.out.println("Estimate of Pi for 1,000,000 "+test1.compute());
+    dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+    
+    test1 = new ApproxPi(10000000); //10000000
+    System.out.println("Estimate of Pi for 10,000,000 "+test1.compute());
+    dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+    
+    test1 = new ApproxPi(100000000); //100000000
+    System.out.println("Estimate of Pi for 100,000,000 "+test1.compute());
+    dev = test1.dev();
+    System.out.println("Deviation is x = "+dev[0]+"   y= "+dev[1]);
+
+    
+  }
+}

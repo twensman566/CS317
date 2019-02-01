@@ -1,0 +1,6 @@
+// my first program in C++
+#include <iostream>
+float main()
+{
+float r = static_cast <float> (rand()) / static_Cast <float> (RAND_MAX)
+}
